@@ -45,7 +45,7 @@ def print_gpus():
     print(f"Currently using GPU {current_device}: {torch.cuda.get_device_name(current_device)}")
     return
 
-class Down(nn.Module):
+class DownBlock(nn.Module):
     def __init__(self, 
                  in_channels: int, out_channels: int, 
                  num_heads: int, num_layers: int, 
@@ -202,7 +202,7 @@ class Down(nn.Module):
 
         out = x
         for i in tqdm(range(self.num_layers)):
-            print_gpus()
+            # print_gpus()
 
             skip_inp = out
 
@@ -303,11 +303,11 @@ if __name__ == "__main__":
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
-    model = Down( in_channels=3,
+    model = DownBlock( in_channels=3,
                  out_channels=128,
                  num_heads = 4,
-                 num_layers = 3,
-                 attn = True,
+                 num_layers = 12,
+                 attn = False,
                  norm_channels = 32,
                  t_emb_dim = t_emb_dim,
                  down_sample = True,
@@ -321,4 +321,10 @@ if __name__ == "__main__":
     t_emb = torch.randn( (batch_size, t_emb_dim) ).to(device)
 
     out = model(x, context, t_emb)  
+    sz = 0 
+    for p in model.parameters():
+        sz += (p.numel() * p.element_size())
+    for b in model.buffers():
+        sz += (b.numel() * b.element_size())
+    print(f"{sz / 1e6 }:.2f in MB")
     print( out.shape ) # torch.Size([2, 128, 64, 64])
