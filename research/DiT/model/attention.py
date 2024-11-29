@@ -78,18 +78,18 @@ class Attention(nn.Module):
         return out
 
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
 
-    device = "cuda:0" if torch.cuda.is_available() else "cpu"
-    bsz, num_patches, hidden_size = 2, 196, 768
-    x = torch.randn( (bsz, num_patches, hidden_size) ).to(device)
+#     device = "cuda:0" if torch.cuda.is_available() else "cpu"
+#     bsz, num_patches, hidden_size = 2, 196, 768
+#     x = torch.randn( (bsz, num_patches, hidden_size) ).to(device)
 
-    num_heads, head_dim = 4, 1024
-    config = dict()
-    config["num_heads"] = num_heads
-    config["head_dim"] = head_dim
-    config["hidden_size"] = hidden_size
+#     num_heads, head_dim = 4, 1024
+#     config = dict()
+#     config["num_heads"] = num_heads
+#     config["head_dim"] = head_dim
+#     config["hidden_size"] = hidden_size
 
-    model = Attention(config).to(device)
-    out = model(x)
-    print(out.shape)
+#     model = Attention(config).to(device)
+#     out = model(x)
+#     print(out.shape)
