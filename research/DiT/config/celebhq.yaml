@@ -1,0 +1,38 @@
+datset_params:
+  im_size: 128
+  im_channels: 3
+  im_path: "./data/CelebAMask-HQ"
+
+
+# dit-B is what we will implement
+dit_params:
+  patch_size: 2 # (2, 2), other poss: (4, 4) etc
+  timestep_emb_dim: 768 
+  hidden_size: 768 # dim of Attention Layers
+  num_layers: 12  # Nx of Attention Layers
+  num_heads: 12 # num of heads in SA
+  head_dim: 64 # each head's attention dim
+
+diffusion_params:
+  beta_start: 0.0001  
+  beta_end:  0.02
+  num_timesteps: 1000 # num of steps in forward/backward process in diffusion
+
+
+# We want to train on latent images
+# vae_params -> we will use VQ-VAE
+# blocks.py -> we have all the blocks params to be set in:
+# Down, Mid, and Up - Blocks
+# These blocks are used in UNET and VAE architecture
+autencoder_params:
+  z_channels: 4 # dim of each discrete learnable vector
+  codebook_size: 8192 # number of such learnable discrete vector
+  down_channels: [128, 256, 384] # recall Nx of down
+  mid_channels: [384] # last of down is first of mid
+  down_sample: [True, True]
+  attn_down: [False, False]
+  norm_channels: 32 # number of groups in GroupNorm
+  num_heads: 4
+  num_down_layers: 2
+  num_mid_layers: 2
+  num_up_layers: 2

@@ -5,6 +5,12 @@ from einops import rearrange, repeat
 
 class PatchEmbedding(nn.Module):
     def __init__(self, config):
+        '''
+            3 Responsibilities:-
+                1. Project patch_feats to transformer dim
+                2. Add CLS tokens to patch sequences
+                3. Add the positional info.
+        '''
         super().__init__()
         # treat config asd a dict / some use csaes we can use it as a class
         self.im_channels = config["im_channels"]
